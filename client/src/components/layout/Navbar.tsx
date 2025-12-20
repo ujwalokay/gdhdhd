@@ -16,9 +16,9 @@ export default function Navbar() {
         </Link>
 
         <div className="hidden md:flex items-center gap-8 font-bold text-sm uppercase">
-          <Link href="/features">Features</Link>
-          <Link href="/templates">Templates</Link>
-          <Link href="/pricing">Pricing</Link>
+          <Link href="/templates">
+            <a className="hover:text-primary transition-colors">Templates</a>
+          </Link>
         </div>
 
         <div className="flex items-center gap-4">

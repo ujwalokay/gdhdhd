@@ -8,12 +8,14 @@ import Home from "@/pages/home";
 import Editor from "@/pages/editor";
 import ViewForm from "@/pages/view-form";
 import Results from "@/pages/results";
+import Templates from "@/pages/templates";
 
 function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
       <Route path="/editor" component={Editor} />
+      <Route path="/templates" component={Templates} />
       <Route path="/view/:id" component={ViewForm} />
       <Route path="/results" component={Results} />
       <Route component={NotFound} />
