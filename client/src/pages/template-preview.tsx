@@ -1,8 +1,9 @@
 import { useLocation } from "wouter";
 import Navbar from "@/components/layout/Navbar";
-import { ArrowRight, Star, Music, Users, Heart, Zap, BookOpen } from "lucide-react";
+import { ArrowRight, Star, Music, Users, Heart, Zap, BookOpen, ChevronDown, MapPin, Clock, DollarSign, Share2, Calendar } from "lucide-react";
 import { useState } from "react";
 import grainTexture from "@assets/generated_images/abstract_holographic_grain_texture.png";
+import heroImage from "@assets/generated_images/3d_neo-brutalist_glossy_star_shape.png";
 
 const templateConfigs: Record<string, any> = {
   "event-registration": {
@@ -95,7 +96,22 @@ export default function TemplatePreview() {
   const templateId = new URLSearchParams(location.split("?")[1]).get("template") || "event-registration";
   const config = templateConfigs[templateId];
   const [currentStep, setCurrentStep] = useState(0);
+  const [expandedSchedule, setExpandedSchedule] = useState<number | null>(null);
   const Icon = config.icon;
+
+  const eventSchedule = [
+    { time: "6:00 PM", title: "Doors Open", description: "Welcome drinks & appetizers" },
+    { time: "7:00 PM", title: "Opening Remarks", description: "Host introduction" },
+    { time: "8:00 PM", title: "Live Performance", description: "Special musical guest" },
+    { time: "9:30 PM", title: "Networking", description: "Mingle and connect" },
+  ];
+
+  const galleryImages = [
+    "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=400&h=300&fit=crop",
+    "https://images.unsplash.com/photo-1501281668479-f6270e1e2353?w=400&h=300&fit=crop",
+    "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=400&h=300&fit=crop",
+    "https://images.unsplash.com/photo-1516627145497-ae6968895b2f?w=400&h=300&fit=crop",
+  ];
 
   if (!config) return <div>Template not found</div>;
 
@@ -103,7 +119,63 @@ export default function TemplatePreview() {
     <div className="min-h-screen bg-background font-sans">
       <Navbar />
 
-      <div className="relative min-h-[calc(100vh-64px)] flex flex-col">
+      {/* Hero Section */}
+      <div className={`relative bg-gradient-to-r ${config.bgGradient} min-h-96 flex items-center justify-center overflow-hidden border-b-4 border-black`}>
+        <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ backgroundImage: `url(${grainTexture})`, backgroundSize: 'cover' }}></div>
+        <div className="absolute inset-0 bg-black/20"></div>
+        <div className="relative z-10 text-center text-white px-4">
+          <img src={heroImage} alt="Event" className="w-32 h-32 mx-auto mb-6 drop-shadow-2xl" />
+          <h1 className="text-5xl md:text-6xl font-display font-black uppercase mb-4">
+            {config.title}
+          </h1>
+          <p className="text-xl md:text-2xl font-medium mb-8">{config.subtitle}</p>
+          <button className="btn-neo bg-white text-black font-bold text-lg px-8 py-3 inline-flex items-center gap-2">
+            <Share2 className="w-5 h-5" /> Share Event
+          </button>
+        </div>
+      </div>
+
+      {/* Event Details */}
+      <div className="bg-white border-b-2 border-black">
+        <div className="max-w-5xl mx-auto px-4 md:px-8 py-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 bg-primary rounded-lg border-2 border-black flex items-center justify-center shadow-hard-sm flex-shrink-0">
+                <Calendar className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="font-bold uppercase text-sm tracking-wider text-gray-500 mb-1">Date</h3>
+                <p className="text-2xl font-display font-black">Dec 31, 2025</p>
+                <p className="text-gray-600 font-medium">8:00 PM - 12:00 AM</p>
+              </div>
+            </div>
+            
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 bg-secondary rounded-lg border-2 border-black flex items-center justify-center shadow-hard-sm flex-shrink-0">
+                <MapPin className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="font-bold uppercase text-sm tracking-wider text-gray-500 mb-1">Location</h3>
+                <p className="text-2xl font-display font-black">Golden Hall</p>
+                <p className="text-gray-600 font-medium">123 Event Street, NYC</p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 bg-accent rounded-lg border-2 border-black flex items-center justify-center shadow-hard-sm flex-shrink-0">
+                <DollarSign className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="font-bold uppercase text-sm tracking-wider text-gray-500 mb-1">Price</h3>
+                <p className="text-2xl font-display font-black">$25 - $75</p>
+                <p className="text-gray-600 font-medium">General to VIP</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="relative flex flex-col">
         {/* Animated gradient background */}
         <div className={`absolute inset-0 bg-gradient-to-br ${config.bgGradient} opacity-90`}></div>
         
@@ -111,7 +183,7 @@ export default function TemplatePreview() {
         <div className="absolute inset-0 opacity-20 pointer-events-none mix-blend-multiply" style={{ backgroundImage: `url(${grainTexture})`, backgroundSize: 'cover' }}></div>
 
         {/* Content */}
-        <div className="relative z-10 flex-1 flex items-center justify-center p-4 md:p-8">
+        <div className="relative z-10 flex items-center justify-center p-4 md:p-8">
           <div className="w-full max-w-2xl bg-white rounded-2xl border-2 border-black shadow-hard overflow-hidden">
             
             {/* Header */}
@@ -202,15 +274,110 @@ export default function TemplatePreview() {
           </div>
         </div>
 
-        {/* CTA to edit */}
-        <div className="relative z-10 p-4 md:p-8 flex justify-center gap-4 flex-wrap">
-          <button className="btn-neo bg-white text-black">
-            ← Back to Templates
-          </button>
-          <button className="btn-neo bg-black text-white">
-            Customize This Template
-          </button>
+      </div>
+
+      {/* Event Schedule Section */}
+      <div className="bg-white border-b-2 border-black py-16 md:py-24">
+        <div className="max-w-5xl mx-auto px-4 md:px-8">
+          <h2 className="text-4xl md:text-5xl font-display font-black uppercase mb-12">Event Schedule</h2>
+          <div className="space-y-3">
+            {eventSchedule.map((item, idx) => (
+              <button
+                key={idx}
+                onClick={() => setExpandedSchedule(expandedSchedule === idx ? null : idx)}
+                className="w-full bg-white border-2 border-black p-6 text-left hover:shadow-hard-sm hover:translate-y-0.5 transition-all rounded-xl"
+              >
+                <div className="flex items-center justify-between">
+                  <div>
+                    <div className="flex items-center gap-4">
+                      <span className="font-display font-black text-2xl text-primary">{item.time}</span>
+                      <div>
+                        <h3 className="font-bold text-lg uppercase">{item.title}</h3>
+                        {expandedSchedule === idx && (
+                          <p className="text-gray-600 font-medium mt-2">{item.description}</p>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                  <ChevronDown className={`w-6 h-6 transition-transform ${expandedSchedule === idx ? 'rotate-180' : ''}`} />
+                </div>
+              </button>
+            ))}
+          </div>
         </div>
+      </div>
+
+      {/* Gallery Section */}
+      <div className="bg-gray-50 border-b-2 border-black py-16 md:py-24">
+        <div className="max-w-5xl mx-auto px-4 md:px-8">
+          <h2 className="text-4xl md:text-5xl font-display font-black uppercase mb-12">Event Gallery</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {galleryImages.map((img, idx) => (
+              <div
+                key={idx}
+                className="group relative h-64 rounded-xl overflow-hidden border-2 border-black shadow-hard-sm hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all"
+              >
+                <img
+                  src={img}
+                  alt={`Gallery ${idx + 1}`}
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
+                  <span className="text-white font-bold">View</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Footer Section */}
+      <div className="bg-black text-white border-b-2 border-black py-16">
+        <div className="max-w-5xl mx-auto px-4 md:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+            <div>
+              <h3 className="font-display font-black text-xl uppercase mb-4">About</h3>
+              <p className="text-gray-300 font-medium leading-relaxed">
+                Join us for an unforgettable experience. Limited spots available—secure yours today!
+              </p>
+            </div>
+            <div>
+              <h3 className="font-display font-black text-xl uppercase mb-4">Quick Links</h3>
+              <ul className="space-y-2 text-gray-300 font-medium">
+                <li><a href="#" className="hover:text-primary transition-colors">Home</a></li>
+                <li><a href="#" className="hover:text-primary transition-colors">About</a></li>
+                <li><a href="#" className="hover:text-primary transition-colors">Contact</a></li>
+                <li><a href="#" className="hover:text-primary transition-colors">FAQ</a></li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="font-display font-black text-xl uppercase mb-4">Contact</h3>
+              <ul className="space-y-2 text-gray-300 font-medium">
+                <li>📧 hello@event.com</li>
+                <li>📞 +1 (555) 123-4567</li>
+                <li>📍 123 Event St, NYC</li>
+              </ul>
+            </div>
+          </div>
+          <div className="border-t border-gray-700 pt-8 flex flex-col md:flex-row items-center justify-between">
+            <p className="text-gray-400 font-medium text-sm">© 2025 Event Organizers. All rights reserved.</p>
+            <div className="flex gap-4 mt-4 md:mt-0">
+              <a href="#" className="text-gray-300 hover:text-primary transition-colors">Twitter</a>
+              <a href="#" className="text-gray-300 hover:text-primary transition-colors">Instagram</a>
+              <a href="#" className="text-gray-300 hover:text-primary transition-colors">Facebook</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* CTA to edit */}
+      <div className="bg-white border-b-2 border-black p-4 md:p-8 flex justify-center gap-4 flex-wrap">
+        <button className="btn-neo bg-white text-black">
+          ← Back to Templates
+        </button>
+        <button className="btn-neo bg-black text-white">
+          Customize This Template
+        </button>
       </div>
     </div>
   );
