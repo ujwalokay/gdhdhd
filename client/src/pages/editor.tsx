@@ -11,16 +11,20 @@ import {
   CheckSquare,
   AlignLeft,
   Trash2,
-  GripVertical
+  GripVertical,
+  Heading2,
+  Minus
 } from "lucide-react";
 import { Link } from "wouter";
 import { motion, Reorder } from "framer-motion";
 
 export default function Editor() {
   const [fields, setFields] = useState([
-    { id: "1", type: "header", label: "Event Registration", placeholder: "Enter a description..." },
+    { id: "1", type: "section", label: "Personal Information", placeholder: "" },
     { id: "2", type: "text", label: "Full Name", placeholder: "e.g. Jane Doe" },
     { id: "3", type: "email", label: "Email Address", placeholder: "jane@example.com" },
+    { id: "4", type: "section", label: "Event Preferences", placeholder: "" },
+    { id: "5", type: "checkbox", label: "I agree to receive updates", placeholder: "" },
   ]);
 
   const [activeTab, setActiveTab] = useState("build");
@@ -83,6 +87,10 @@ export default function Editor() {
           <div className="font-bold text-xs uppercase text-gray-400 tracking-wider">Add Elements</div>
           
           <div className="grid grid-cols-2 gap-3">
+             <button onClick={() => addField("section")} className="flex flex-col items-center justify-center gap-2 p-4 rounded-lg border-2 border-dashed border-gray-200 hover:border-black hover:bg-primary/10 transition-colors">
+                <Heading2 className="w-5 h-5" />
+                <span className="text-xs font-bold">Section</span>
+             </button>
              <button onClick={() => addField("text")} className="flex flex-col items-center justify-center gap-2 p-4 rounded-lg border-2 border-dashed border-gray-200 hover:border-black hover:bg-accent/10 transition-colors">
                 <Type className="w-5 h-5" />
                 <span className="text-xs font-bold">Text</span>
@@ -94,6 +102,10 @@ export default function Editor() {
              <button onClick={() => addField("checkbox")} className="flex flex-col items-center justify-center gap-2 p-4 rounded-lg border-2 border-dashed border-gray-200 hover:border-black hover:bg-accent/10 transition-colors">
                 <CheckSquare className="w-5 h-5" />
                 <span className="text-xs font-bold">Checkbox</span>
+             </button>
+             <button onClick={() => addField("divider")} className="flex flex-col items-center justify-center gap-2 p-4 rounded-lg border-2 border-dashed border-gray-200 hover:border-black hover:bg-secondary/10 transition-colors">
+                <Minus className="w-5 h-5" />
+                <span className="text-xs font-bold">Divider</span>
              </button>
              <button onClick={() => addField("image")} className="flex flex-col items-center justify-center gap-2 p-4 rounded-lg border-2 border-dashed border-gray-200 hover:border-black hover:bg-accent/10 transition-colors">
                 <ImageIcon className="w-5 h-5" />
@@ -127,28 +139,48 @@ export default function Editor() {
                 <Reorder.Group axis="y" values={fields} onReorder={setFields} className="space-y-4">
                   {fields.map((field) => (
                     <Reorder.Item key={field.id} value={field}>
-                      <div className="group relative bg-white border border-gray-200 hover:border-black hover:shadow-hard-sm transition-all rounded-lg p-6 pr-12">
+                      <div className={`group relative ${field.type === 'section' ? 'bg-gray-50 border-l-4 border-primary' : 'bg-white border border-gray-200'} hover:border-black hover:shadow-hard-sm transition-all rounded-lg p-6 pr-12`}>
                          <div className="absolute right-4 top-4 opacity-0 group-hover:opacity-100 flex flex-col gap-2 transition-opacity">
                             <button className="p-1 hover:bg-red-50 hover:text-red-500 rounded"><Trash2 className="w-4 h-4" /></button>
                             <button className="p-1 cursor-grab active:cursor-grabbing"><GripVertical className="w-4 h-4 text-gray-400" /></button>
                          </div>
                          
-                         <input 
-                           className="font-bold text-lg mb-2 w-full outline-none focus:border-b-2 focus:border-primary" 
-                           defaultValue={field.label} 
-                         />
+                         {field.type === 'section' && (
+                           <>
+                             <input 
+                               className="font-display font-bold text-2xl mb-1 w-full outline-none text-primary bg-transparent" 
+                               defaultValue={field.label}
+                               placeholder="Section Title"
+                             />
+                             <p className="text-xs text-gray-400 font-bold uppercase tracking-wider">Section Break</p>
+                           </>
+                         )}
                          
-                         {field.type === 'text' && (
-                           <input disabled className="input-neo bg-gray-50" placeholder={field.placeholder} />
+                         {field.type === 'divider' && (
+                           <div className="h-1 bg-gradient-to-r from-gray-200 via-gray-400 to-gray-200 rounded-full"></div>
                          )}
-                         {field.type === 'textarea' && (
-                           <textarea disabled className="input-neo bg-gray-50 h-24 resize-none" placeholder={field.placeholder} />
-                         )}
-                         {field.type === 'checkbox' && (
-                           <div className="flex items-center gap-2">
-                             <div className="w-5 h-5 border-2 border-black rounded bg-gray-50"></div>
-                             <span className="text-gray-400">Option 1</span>
-                           </div>
+                         
+                         {field.type !== 'section' && field.type !== 'divider' && (
+                           <>
+                             <input 
+                               className="font-bold text-lg mb-2 w-full outline-none focus:border-b-2 focus:border-primary" 
+                               defaultValue={field.label}
+                               placeholder="Field Label"
+                             />
+                             
+                             {field.type === 'text' && (
+                               <input disabled className="input-neo bg-gray-50" placeholder={field.placeholder} />
+                             )}
+                             {field.type === 'textarea' && (
+                               <textarea disabled className="input-neo bg-gray-50 h-24 resize-none" placeholder={field.placeholder} />
+                             )}
+                             {field.type === 'checkbox' && (
+                               <div className="flex items-center gap-2">
+                                 <div className="w-5 h-5 border-2 border-black rounded bg-gray-50"></div>
+                                 <span className="text-gray-400">Option 1</span>
+                               </div>
+                             )}
+                           </>
                          )}
                       </div>
                     </Reorder.Item>
