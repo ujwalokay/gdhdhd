@@ -84,7 +84,7 @@ export default function Templates() {
                 transition={{ delay: idx * 0.1 }}
                 viewport={{ once: true }}
               >
-                <Link href={`/editor?template=${template.id}`}>
+                <Link href={`/template-preview?template=${template.id}`}>
                   <div className="group block cursor-pointer">
                     <div className="card-neo p-8 h-full hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all duration-200 cursor-pointer relative overflow-hidden">
                       {/* Background gradient accent */}
