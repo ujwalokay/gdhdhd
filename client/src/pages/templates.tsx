@@ -85,7 +85,7 @@ export default function Templates() {
                 viewport={{ once: true }}
               >
                 <Link href={`/editor?template=${template.id}`}>
-                  <a className="group block">
+                  <div className="group block cursor-pointer">
                     <div className="card-neo p-8 h-full hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all duration-200 cursor-pointer relative overflow-hidden">
                       {/* Background gradient accent */}
                       <div className={`absolute inset-0 opacity-0 group-hover:opacity-5 bg-gradient-to-br ${template.color} transition-opacity pointer-events-none`}></div>
@@ -118,7 +118,7 @@ export default function Templates() {
                         <ArrowRight className="w-4 h-4" />
                       </div>
                     </div>
-                  </a>
+                  </div>
                 </Link>
               </motion.div>
             );
