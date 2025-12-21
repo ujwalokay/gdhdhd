@@ -74,9 +74,9 @@ export default function ViewForm() {
              <div className="text-2xl font-mono tracking-widest">XY-9283-ZZ</div>
           </div>
           <Link href="/results">
-            <button className="btn-neo w-full bg-secondary">
+            <a className="btn-neo w-full bg-secondary">
               View Dashboard
-            </button>
+            </a>
           </Link>
         </motion.div>
       </div>

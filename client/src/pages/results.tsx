@@ -25,7 +25,7 @@ export default function Results() {
           
           <div className="flex gap-2">
             <Link href="/editor">
-                <button className="btn-neo bg-white text-xs h-10 px-4">Edit Form</button>
+                <a className="btn-neo bg-white text-xs h-10 px-4">Edit Form</a>
             </Link>
             <button className="btn-neo bg-accent text-xs h-10 px-4">
               <Download className="w-4 h-4 mr-2" /> Export CSV

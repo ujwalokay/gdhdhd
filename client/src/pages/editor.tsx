@@ -71,9 +71,9 @@ export default function Editor() {
 
         <div className="flex gap-2">
           <Link href="/view/preview">
-            <button className="btn-neo bg-white h-10 px-4 text-xs">
+            <a className="btn-neo bg-white h-10 px-4 text-xs">
               <Eye className="w-4 h-4 mr-2" /> Preview
-            </button>
+            </a>
           </Link>
           <button className="btn-neo h-10 px-4 text-xs">
             <Share2 className="w-4 h-4 mr-2" /> Publish

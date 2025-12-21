@@ -136,9 +136,9 @@ export default function Templates() {
             Start from scratch and design your own form. All our templates are just starting points.
           </p>
           <Link href="/editor">
-            <button className="btn-neo bg-primary text-lg px-8 py-3">
+            <a className="btn-neo bg-primary text-lg px-8 py-3">
               Create Blank Form
-            </button>
+            </a>
           </Link>
         </div>
       </section>

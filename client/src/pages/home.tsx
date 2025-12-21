@@ -27,13 +27,15 @@ export default function Home() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
               <Link href="/editor">
-                <button className="btn-neo text-lg py-6 px-8 bg-primary">
+                <a className="btn-neo text-lg py-6 px-8 bg-primary">
                   Start Building Free <ArrowRight className="ml-2 w-5 h-5" />
-                </button>
+                </a>
               </Link>
-              <button className="btn-neo text-lg py-6 px-8 bg-white hover:bg-muted">
-                View Templates
-              </button>
+              <Link href="/templates">
+                <a className="btn-neo text-lg py-6 px-8 bg-white hover:bg-muted">
+                  View Templates
+                </a>
+              </Link>
             </div>
           </div>
           
