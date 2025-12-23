@@ -61,6 +61,7 @@ export default function Editor() {
   const templateId = new URLSearchParams(location.split("?")[1]).get("template");
   const templateData = templateId ? templateConfigs[templateId] : null;
 
+  const [editorTab, setEditorTab] = useState("build");
   const [activeSection, setActiveSection] = useState("basic");
   const [formTitle, setFormTitle] = useState(templateData?.title || "Sab AI kyun le rahe hai!?");
   const [formDesc, setFormDesc] = useState(templateData?.subtitle || "Join E-CELL KCCEMSR for a session that's actually fun. Relatable tech banter, zero boring lectures, and pure vibes.");
@@ -109,11 +110,31 @@ export default function Editor() {
           <span className="font-display font-bold text-lg">VibeForm Editor</span>
         </Link>
 
-        <div className="flex gap-2">
+        <div className="flex gap-4 items-center">
+          <div className="flex border-2 border-black rounded-lg p-1">
+            <button 
+              onClick={() => setEditorTab("build")}
+              className={`px-4 py-1 font-bold text-sm transition-all ${
+                editorTab === "build"
+                  ? "bg-primary text-black"
+                  : "text-gray-600 hover:text-black"
+              }`}
+            >
+              Build
+            </button>
+            <button 
+              onClick={() => setEditorTab("live")}
+              className={`px-4 py-1 font-bold text-sm transition-all ${
+                editorTab === "live"
+                  ? "bg-primary text-black"
+                  : "text-gray-600 hover:text-black"
+              }`}
+            >
+              Live
+            </button>
+          </div>
+
           <button className="btn-neo bg-white h-10 px-4 text-xs gap-2">
-            <Eye className="w-4 h-4" /> Preview
-          </button>
-          <button className="btn-neo h-10 px-4 text-xs gap-2">
             <Share2 className="w-4 h-4" /> Publish
           </button>
         </div>
@@ -121,33 +142,38 @@ export default function Editor() {
 
       {/* Main Content */}
       <div className="flex-1 flex overflow-hidden">
-        {/* Sidebar */}
-        <div className="w-64 bg-white border-r-2 border-black p-4 overflow-y-auto">
-          <div className="font-bold text-xs uppercase text-gray-400 tracking-wider mb-4">Sections</div>
-          <div className="space-y-2">
-            {sections.map((section) => {
-              const Icon = section.icon;
-              return (
-                <button
-                  key={section.id}
-                  onClick={() => setActiveSection(section.id)}
-                  className={`w-full flex items-center gap-3 p-3 rounded-lg text-left transition-all ${
-                    activeSection === section.id
-                      ? "bg-primary text-black font-bold"
-                      : "text-gray-700 hover:bg-gray-100"
-                  }`}
-                >
-                  <Icon className="w-5 h-5" />
-                  {section.label}
-                </button>
-              );
-            })}
+        {/* Sidebar - Only show on Build tab */}
+        {editorTab === "build" && (
+          <div className="w-64 bg-white border-r-2 border-black p-4 overflow-y-auto">
+            <div className="font-bold text-xs uppercase text-gray-400 tracking-wider mb-4">Sections</div>
+            <div className="space-y-2">
+              {sections.map((section) => {
+                const Icon = section.icon;
+                return (
+                  <button
+                    key={section.id}
+                    onClick={() => setActiveSection(section.id)}
+                    className={`w-full flex items-center gap-3 p-3 rounded-lg text-left transition-all ${
+                      activeSection === section.id
+                        ? "bg-primary text-black font-bold"
+                        : "text-gray-700 hover:bg-gray-100"
+                    }`}
+                  >
+                    <Icon className="w-5 h-5" />
+                    {section.label}
+                  </button>
+                );
+              })}
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Main Canvas */}
         <div className="flex-1 bg-gradient-to-br from-black via-black to-gray-900 p-8 overflow-y-auto flex justify-center">
           <div className="w-full max-w-2xl">
+            {/* BUILD TAB */}
+            {editorTab === "build" && (
+              <>
             {/* Basic Info Section */}
             {activeSection === "basic" && (
               <div className="space-y-6">
@@ -321,6 +347,80 @@ export default function Editor() {
                   <button className="btn-neo bg-black text-white w-full mt-6 font-bold">
                     Save All Settings
                   </button>
+                </div>
+              </div>
+            )}
+              </>
+            )}
+
+            {/* LIVE TAB - Show form as users see it */}
+            {editorTab === "live" && (
+              <div className="w-full">
+                {/* Event Header */}
+                <div className={`bg-gradient-to-r ${bgColor} rounded-2xl border-2 border-white shadow-2xl overflow-hidden mb-6`}>
+                  <div className="relative h-64 flex items-center justify-center">
+                    <img 
+                      src={headerImage}
+                      alt="Event"
+                      className="w-full h-full object-cover absolute inset-0"
+                    />
+                    <div className="absolute inset-0 bg-black/30"></div>
+                  </div>
+                </div>
+
+                {/* Event Details Card */}
+                <div className="card-neo p-8 mb-6 bg-white">
+                  <h1 className="text-4xl font-display font-black mb-3">{formTitle}</h1>
+                  <p className="text-gray-600 text-lg mb-8 leading-relaxed">{formDesc}</p>
+
+                  {/* Date, Time, Location */}
+                  <div className="space-y-4 border-t-2 border-b-2 border-black py-6">
+                    <div className="flex items-start gap-3">
+                      <Clock className="w-6 h-6 text-primary mt-1 flex-shrink-0" />
+                      <div>
+                        <p className="font-bold">{dateTime.date}</p>
+                        <p className="text-gray-600">{dateTime.startTime} - {dateTime.endTime}</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <MapPin className="w-6 h-6 text-accent mt-1 flex-shrink-0" />
+                      <div>
+                        <p className="font-bold text-lg">{location_text}</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <Users className="w-6 h-6 text-secondary mt-1 flex-shrink-0" />
+                      <div>
+                        <p className="text-gray-600">{guestCount} going</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Registration Form */}
+                  <div className="mt-8">
+                    <h2 className="text-2xl font-display font-bold mb-6">REGISTRATION</h2>
+                    <div className="space-y-4">
+                      <div>
+                        <label className="block font-bold mb-2">Full Name *</label>
+                        <input 
+                          type="text"
+                          placeholder="Enter your full name"
+                          className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-black focus:ring-0 outline-none"
+                        />
+                      </div>
+                      <div>
+                        <label className="block font-bold mb-2">Email Address *</label>
+                        <input 
+                          type="email"
+                          placeholder="you@example.com"
+                          className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-black focus:ring-0 outline-none"
+                        />
+                      </div>
+                      <button className="btn-neo bg-black text-white w-full font-bold py-3 mt-4">
+                        Request to Join
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
             )}

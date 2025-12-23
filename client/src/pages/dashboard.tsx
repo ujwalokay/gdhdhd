@@ -40,6 +40,22 @@ const myEvents = [
 ];
 
 export default function Dashboard() {
+  const [activeTab, setActiveTab] = useState("all");
+
+  const tabs = [
+    { id: "all", label: "All Events", count: myEvents.length },
+    { id: "live", label: "Live", count: myEvents.filter(e => e.status === "Live").length },
+    { id: "draft", label: "Draft", count: myEvents.filter(e => e.status === "Draft").length },
+    { id: "archived", label: "Archived", count: 0 },
+  ];
+
+  const filteredEvents = myEvents.filter(event => {
+    if (activeTab === "all") return true;
+    if (activeTab === "live") return event.status === "Live";
+    if (activeTab === "draft") return event.status === "Draft";
+    return false;
+  });
+
   return (
     <div className="min-h-screen bg-background font-sans flex flex-col">
       <Navbar />
@@ -65,9 +81,30 @@ export default function Dashboard() {
         </div>
       </div>
 
+      {/* Tabs */}
+      <div className="bg-white border-b-2 border-black sticky top-0 z-40">
+        <div className="max-w-7xl mx-auto px-4 md:px-8">
+          <div className="flex gap-8 overflow-x-auto">
+            {tabs.map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`py-4 font-bold uppercase text-sm tracking-wider border-b-4 transition-colors whitespace-nowrap ${
+                  activeTab === tab.id
+                    ? "text-black border-b-black"
+                    : "text-gray-500 border-b-transparent hover:text-black"
+                }`}
+              >
+                {tab.label} <span className="ml-2 text-xs font-black bg-gray-200 px-2 py-1 rounded-full">{tab.count}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
       {/* Events Grid */}
       <div className="flex-1 max-w-7xl mx-auto px-4 md:px-8 py-12 w-full">
-        {myEvents.length === 0 ? (
+        {filteredEvents.length === 0 ? (
           <div className="text-center py-24">
             <h2 className="text-3xl font-display font-black mb-4">No events yet</h2>
             <p className="text-muted-foreground mb-8">Create your first event to get started</p>
@@ -79,7 +116,7 @@ export default function Dashboard() {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {myEvents.map((event) => (
+            {filteredEvents.map((event) => (
               <div key={event.id} className="card-neo p-0 overflow-hidden hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all">
                 {/* Image */}
                 <div className="relative h-40 bg-gray-100 overflow-hidden">
