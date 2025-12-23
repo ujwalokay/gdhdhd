@@ -2,6 +2,7 @@ import { useLocation } from "wouter";
 import Navbar from "@/components/layout/Navbar";
 import { ArrowRight, Star, Music, Users, Heart, Zap, BookOpen, ChevronDown, MapPin, Clock, DollarSign, Share2, Calendar } from "lucide-react";
 import { useState } from "react";
+import { Link } from "wouter";
 import grainTexture from "@assets/generated_images/abstract_holographic_grain_texture.png";
 import techConfImg from "@assets/generated_images/indian_tech_conference_networking_event.png";
 import hackathonImg from "@assets/generated_images/indian_startup_hackathon_event.png";
@@ -407,12 +408,16 @@ export default function TemplatePreview() {
 
       {/* CTA to edit */}
       <div className="bg-white border-b-2 border-black p-4 md:p-8 flex justify-center gap-4 flex-wrap">
-        <button className="btn-neo bg-white text-black">
-          ← Back to Templates
-        </button>
-        <button className="btn-neo bg-black text-white">
-          Customize This Template
-        </button>
+        <Link href="/templates">
+          <button className="btn-neo bg-white text-black">
+            ← Back to Templates
+          </button>
+        </Link>
+        <Link href={`/editor?template=${templateId}`}>
+          <button className="btn-neo bg-black text-white">
+            Customize This Template
+          </button>
+        </Link>
       </div>
     </div>
   );

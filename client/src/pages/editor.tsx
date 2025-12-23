@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useLocation } from "wouter";
 import Navbar from "@/components/layout/Navbar";
 import { 
   MapPin,
@@ -14,13 +15,60 @@ import {
 } from "lucide-react";
 import { Link } from "wouter";
 import eventImg from "@assets/stock_images/indian_people_at_eve_4220b17f.jpg";
-import venueImg from "@assets/stock_images/indian_event_venue_i_13b233c5.jpg";
+import techConfImg from "@assets/generated_images/indian_tech_conference_networking_event.png";
+import hackathonImg from "@assets/generated_images/indian_startup_hackathon_event.png";
+import musicFestImg from "@assets/generated_images/indian_music_festival_concert.png";
+
+const templateConfigs: Record<string, any> = {
+  "event-registration": {
+    title: "Sab AI Kyun Le Rahe Hai!?",
+    subtitle: "Join E-CELL KCCEMSR for a session that's actually fun. Relatable tech banter, zero boring lectures, and pure vibes.",
+    image: techConfImg,
+  },
+  "quiz": {
+    title: "Web Dev Mastery Challenge",
+    subtitle: "Test your web development skills with our interactive quiz. See how you rank among developers in India.",
+    image: hackathonImg,
+  },
+  "feedback": {
+    title: "Event Feedback Survey",
+    subtitle: "Help us improve by sharing your thoughts about the event. Your feedback shapes our future events!",
+    image: musicFestImg,
+  },
+  "waitlist": {
+    title: "Early Access Waitlist",
+    subtitle: "Be the first to know when we launch something special. No spam, just updates about our best events.",
+    image: techConfImg,
+  },
+  "rsvp": {
+    title: "New Year Bash 2026",
+    subtitle: "Let us know if you're coming to the coolest New Year event in Mumbai. No cap, it's going to be W!",
+    image: musicFestImg,
+  },
+  "merch-order": {
+    title: "Official Merch Store",
+    subtitle: "Get exclusive limited-edition merchandise from your favorite Indian tech community.",
+    image: hackathonImg,
+  },
+};
 
 export default function Editor() {
-  const [formTitle, setFormTitle] = useState("Sab AI kyun le rahe hai!?");
-  const [formDesc, setFormDesc] = useState("Join E-CELL KCCEMSR for a session that's actually fun. Relatable tech banter, zero boring lectures, and pure vibes.");
+  const [location] = useLocation();
+  const templateId = new URLSearchParams(location.split("?")[1]).get("template");
+  const templateData = templateId ? templateConfigs[templateId] : null;
+
+  const [formTitle, setFormTitle] = useState(templateData?.title || "Sab AI kyun le rahe hai!?");
+  const [formDesc, setFormDesc] = useState(templateData?.subtitle || "Join E-CELL KCCEMSR for a session that's actually fun. Relatable tech banter, zero boring lectures, and pure vibes.");
   const [isEditing, setIsEditing] = useState(false);
-  const [headerImage, setHeaderImage] = useState(eventImg);
+  const [headerImage, setHeaderImage] = useState(templateData?.image || eventImg);
+
+  useEffect(() => {
+    if (templateData) {
+      setFormTitle(templateData.title);
+      setFormDesc(templateData.subtitle);
+      setHeaderImage(templateData.image);
+    }
+  }, [templateData]);
 
   const handleImageUpload = (e: any) => {
     const file = e.target.files?.[0];
