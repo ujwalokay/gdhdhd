@@ -11,7 +11,11 @@ import {
   Share2,
   Settings,
   Upload,
-  ArrowLeft
+  ArrowLeft,
+  Layout,
+  Image as ImageIcon,
+  Type,
+  Palette
 } from "lucide-react";
 import { Link } from "wouter";
 import eventImg from "@assets/stock_images/indian_people_at_eve_4220b17f.jpg";
@@ -57,10 +61,14 @@ export default function Editor() {
   const templateId = new URLSearchParams(location.split("?")[1]).get("template");
   const templateData = templateId ? templateConfigs[templateId] : null;
 
+  const [activeSection, setActiveSection] = useState("basic");
   const [formTitle, setFormTitle] = useState(templateData?.title || "Sab AI kyun le rahe hai!?");
   const [formDesc, setFormDesc] = useState(templateData?.subtitle || "Join E-CELL KCCEMSR for a session that's actually fun. Relatable tech banter, zero boring lectures, and pure vibes.");
-  const [isEditing, setIsEditing] = useState(false);
   const [headerImage, setHeaderImage] = useState(templateData?.image || eventImg);
+  const [location_text, setLocation] = useState("K.C. College of Engineering & Management Studies & Research");
+  const [dateTime, setDateTime] = useState({ date: "Friday 26 December", startTime: "13:30", endTime: "15:30" });
+  const [guestCount, setGuestCount] = useState("29");
+  const [bgColor, setBgColor] = useState("from-purple-600 via-pink-500 to-orange-400");
 
   useEffect(() => {
     if (templateData) {
@@ -81,8 +89,18 @@ export default function Editor() {
     }
   };
 
+  const sections = [
+    { id: "basic", label: "Basic Info", icon: Type },
+    { id: "details", label: "Event Details", icon: Clock },
+    { id: "image", label: "Image & Media", icon: ImageIcon },
+    { id: "design", label: "Design", icon: Palette },
+    { id: "settings", label: "Settings", icon: Settings },
+  ];
+
   return (
     <div className="min-h-screen bg-background font-sans flex flex-col">
+      <Navbar />
+
       {/* Header */}
       <nav className="h-16 bg-white border-b-2 border-black flex items-center justify-between px-6 sticky top-0 z-50">
         <Link href="/" className="flex items-center gap-3">
@@ -102,180 +120,210 @@ export default function Editor() {
       </nav>
 
       {/* Main Content */}
-      <div className="flex-1 bg-gradient-to-br from-black via-black to-gray-900 p-8 overflow-y-auto">
-        <div className="max-w-6xl mx-auto">
-          {/* Event Form Preview */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-            {/* Left Column - Event Image */}
-            <div className="flex flex-col gap-4">
-              <div className="relative group">
-                <div className="aspect-square bg-gradient-to-br from-purple-600 via-pink-500 to-orange-400 rounded-2xl border-2 border-white shadow-2xl flex items-center justify-center cursor-pointer hover:opacity-90 transition-opacity overflow-hidden">
-                  <img 
-                    src={headerImage} 
-                    alt="Event header" 
-                    className="w-full h-full object-cover"
+      <div className="flex-1 flex overflow-hidden">
+        {/* Sidebar */}
+        <div className="w-64 bg-white border-r-2 border-black p-4 overflow-y-auto">
+          <div className="font-bold text-xs uppercase text-gray-400 tracking-wider mb-4">Sections</div>
+          <div className="space-y-2">
+            {sections.map((section) => {
+              const Icon = section.icon;
+              return (
+                <button
+                  key={section.id}
+                  onClick={() => setActiveSection(section.id)}
+                  className={`w-full flex items-center gap-3 p-3 rounded-lg text-left transition-all ${
+                    activeSection === section.id
+                      ? "bg-primary text-black font-bold"
+                      : "text-gray-700 hover:bg-gray-100"
+                  }`}
+                >
+                  <Icon className="w-5 h-5" />
+                  {section.label}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Main Canvas */}
+        <div className="flex-1 bg-gradient-to-br from-black via-black to-gray-900 p-8 overflow-y-auto flex justify-center">
+          <div className="w-full max-w-2xl">
+            {/* Basic Info Section */}
+            {activeSection === "basic" && (
+              <div className="space-y-6">
+                <div className="card-neo p-6 bg-white">
+                  <h2 className="text-2xl font-display font-bold mb-4">Event Title</h2>
+                  <input
+                    type="text"
+                    value={formTitle}
+                    onChange={(e) => setFormTitle(e.target.value)}
+                    className="w-full text-3xl font-display font-black border-b-2 border-black p-2 focus:outline-none mb-6"
+                  />
+                  
+                  <h2 className="text-2xl font-display font-bold mb-4">Description</h2>
+                  <textarea
+                    value={formDesc}
+                    onChange={(e) => setFormDesc(e.target.value)}
+                    className="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-black focus:ring-0 outline-none resize-none"
+                    rows={5}
                   />
                 </div>
-                <label className="absolute bottom-4 right-4 p-2 bg-white rounded-lg shadow-lg hover:shadow-xl transition-all cursor-pointer">
-                  <Upload className="w-4 h-4 text-black" />
-                  <input 
-                    type="file" 
-                    accept="image/*" 
-                    onChange={handleImageUpload}
-                    className="hidden"
-                  />
-                </label>
               </div>
-              
-              {/* Presenter Info */}
-              <div className="bg-white/10 border border-white/20 rounded-xl p-4 backdrop-blur-sm">
-                <div className="text-xs uppercase text-white/70 font-bold mb-3">Presented By</div>
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary" />
-                  <div>
-                    <div className="font-bold text-white text-sm">FocusDyn</div>
-                    <div className="text-xs text-white/60">Community Of Driven Individuals</div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            )}
 
-            {/* Right Column - Event Details & Registration */}
-            <div className="flex flex-col gap-6">
-              {/* Event Location Badge */}
-              <div className="inline-flex items-center gap-2 bg-orange-500 px-3 py-1 rounded-full border-2 border-white w-fit">
-                <span className="text-xs font-bold text-white">Featured in Mumbai</span>
-              </div>
+            {/* Event Details Section */}
+            {activeSection === "details" && (
+              <div className="space-y-6">
+                <div className="card-neo p-6 bg-white">
+                  <h2 className="text-2xl font-display font-bold mb-6">Event Details</h2>
 
-              {/* Event Title & Description */}
-              <div className="space-y-3">
-                {isEditing ? (
-                  <>
-                    <input
-                      type="text"
-                      value={formTitle}
-                      onChange={(e) => setFormTitle(e.target.value)}
-                      className="w-full bg-white/10 border-2 border-white text-white text-4xl font-display font-black placeholder-white/40 rounded-lg p-3 focus:outline-none"
-                    />
-                    <textarea
-                      value={formDesc}
-                      onChange={(e) => setFormDesc(e.target.value)}
-                      className="w-full bg-white/10 border-2 border-white text-white text-lg placeholder-white/40 rounded-lg p-3 focus:outline-none resize-none"
-                      rows={3}
-                    />
-                  </>
-                ) : (
-                  <>
-                    <h1 className="text-4xl md:text-5xl font-display font-black text-white leading-tight">
-                      {formTitle}
-                    </h1>
-                    <p className="text-lg text-white/90 leading-relaxed">
-                      {formDesc}
-                    </p>
-                  </>
-                )}
-              </div>
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block font-bold text-sm uppercase mb-2">Date</label>
+                      <input
+                        type="text"
+                        value={dateTime.date}
+                        onChange={(e) => setDateTime({...dateTime, date: e.target.value})}
+                        className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-black focus:ring-0 outline-none"
+                      />
+                    </div>
 
-              {/* Event Details */}
-              <div className="space-y-3">
-                <div className="flex items-center gap-3 text-white">
-                  <Clock className="w-5 h-5 flex-shrink-0" />
-                  <div>
-                    <div className="font-bold text-sm">Friday 26 December</div>
-                    <div className="text-sm text-white/70">13:30 - 15:30</div>
-                  </div>
-                </div>
-                
-                <div className="flex items-center gap-3 text-white">
-                  <MapPin className="w-5 h-5 flex-shrink-0" />
-                  <div>
-                    <div className="font-bold text-sm">K.C. College of Engineering & Management Studies & Research</div>
-                    <div className="text-sm text-white/70">Thane East, Thane, Maharashtra 400603, India</div>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-3 text-white">
-                  <Users className="w-5 h-5 flex-shrink-0" />
-                  <div>
-                    <div className="font-bold text-sm">29 Going</div>
-                    <div className="flex gap-1 mt-1">
-                      {[...Array(5)].map((_, i) => (
-                        <div 
-                          key={i}
-                          className="w-6 h-6 rounded-full bg-gradient-to-br from-primary to-accent border-2 border-white"
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block font-bold text-sm uppercase mb-2">Start Time</label>
+                        <input
+                          type="time"
+                          value={dateTime.startTime}
+                          onChange={(e) => setDateTime({...dateTime, startTime: e.target.value})}
+                          className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-black focus:ring-0 outline-none"
                         />
+                      </div>
+                      <div>
+                        <label className="block font-bold text-sm uppercase mb-2">End Time</label>
+                        <input
+                          type="time"
+                          value={dateTime.endTime}
+                          onChange={(e) => setDateTime({...dateTime, endTime: e.target.value})}
+                          className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-black focus:ring-0 outline-none"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block font-bold text-sm uppercase mb-2">Location</label>
+                      <input
+                        type="text"
+                        value={location_text}
+                        onChange={(e) => setLocation(e.target.value)}
+                        className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-black focus:ring-0 outline-none"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block font-bold text-sm uppercase mb-2">Expected Guests</label>
+                      <input
+                        type="number"
+                        value={guestCount}
+                        onChange={(e) => setGuestCount(e.target.value)}
+                        className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-black focus:ring-0 outline-none"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Image & Media Section */}
+            {activeSection === "image" && (
+              <div className="space-y-6">
+                <div className="card-neo p-6 bg-white">
+                  <h2 className="text-2xl font-display font-bold mb-6">Event Image</h2>
+
+                  <div className="relative group mb-6">
+                    <div className="aspect-square bg-gradient-to-br from-purple-600 via-pink-500 to-orange-400 rounded-2xl border-2 border-black shadow-hard-sm flex items-center justify-center cursor-pointer hover:opacity-90 transition-opacity overflow-hidden">
+                      <img 
+                        src={headerImage} 
+                        alt="Event header" 
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <label className="absolute bottom-4 right-4 p-2 bg-white rounded-lg shadow-lg hover:shadow-xl transition-all cursor-pointer">
+                      <Upload className="w-4 h-4 text-black" />
+                      <input 
+                        type="file" 
+                        accept="image/*" 
+                        onChange={handleImageUpload}
+                        className="hidden"
+                      />
+                    </label>
+                  </div>
+
+                  <p className="text-sm text-gray-600">Recommended: Square image, at least 1000x1000px</p>
+                </div>
+              </div>
+            )}
+
+            {/* Design Section */}
+            {activeSection === "design" && (
+              <div className="space-y-6">
+                <div className="card-neo p-6 bg-white">
+                  <h2 className="text-2xl font-display font-bold mb-6">Design & Theme</h2>
+
+                  <div>
+                    <label className="block font-bold text-sm uppercase mb-4">Color Scheme</label>
+                    <div className="grid grid-cols-2 gap-4">
+                      {[
+                        { name: "Purple", value: "from-purple-600 via-pink-500 to-orange-400" },
+                        { name: "Blue", value: "from-blue-500 via-cyan-400 to-teal-400" },
+                        { name: "Rose", value: "from-rose-400 via-pink-300 to-purple-300" },
+                        { name: "Yellow", value: "from-yellow-400 via-orange-300 to-red-300" },
+                      ].map((color) => (
+                        <button
+                          key={color.value}
+                          onClick={() => setBgColor(color.value)}
+                          className={`p-4 rounded-lg border-4 transition-all ${
+                            bgColor === color.value ? "border-black" : "border-gray-300"
+                          }`}
+                        >
+                          <div className={`w-full h-12 rounded-lg bg-gradient-to-r ${color.value} mb-2`}></div>
+                          <span className="font-bold text-sm">{color.name}</span>
+                        </button>
                       ))}
                     </div>
                   </div>
                 </div>
               </div>
+            )}
 
-              {/* Registration Section */}
-              <div className="bg-white/5 border-2 border-white/20 rounded-xl p-6 backdrop-blur-sm space-y-4">
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2">
-                    <div className="w-5 h-5 flex items-center justify-center rounded bg-orange-500">
-                      <span className="text-white text-xs font-bold">!</span>
+            {/* Settings Section */}
+            {activeSection === "settings" && (
+              <div className="space-y-6">
+                <div className="card-neo p-6 bg-white">
+                  <h2 className="text-2xl font-display font-bold mb-6">Form Settings</h2>
+
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between p-4 border-2 border-gray-300 rounded-lg">
+                      <span className="font-bold">Require Approval</span>
+                      <input type="checkbox" className="w-5 h-5 border-2 border-black rounded" defaultChecked />
                     </div>
-                    <h3 className="font-bold text-white text-sm">Registration</h3>
+
+                    <div className="flex items-center justify-between p-4 border-2 border-gray-300 rounded-lg">
+                      <span className="font-bold">Allow Multiple Responses</span>
+                      <input type="checkbox" className="w-5 h-5 border-2 border-black rounded" />
+                    </div>
+
+                    <div className="flex items-center justify-between p-4 border-2 border-gray-300 rounded-lg">
+                      <span className="font-bold">Show Results Live</span>
+                      <input type="checkbox" className="w-5 h-5 border-2 border-black rounded" />
+                    </div>
                   </div>
-                  <p className="text-xs text-white/70">Approval Required</p>
-                  <p className="text-xs text-white/60">Your registration is subject to host approval.</p>
+
+                  <button className="btn-neo bg-black text-white w-full mt-6 font-bold">
+                    Save All Settings
+                  </button>
                 </div>
-
-                <p className="text-white text-sm leading-relaxed">
-                  Welcome! To join the event, please register below.
-                </p>
-
-                <button className="w-full bg-white text-black font-bold py-3 rounded-lg hover:shadow-lg transition-shadow">
-                  Request to Join
-                </button>
               </div>
-
-              {/* About Event */}
-              <div className="space-y-3">
-                <h3 className="font-bold text-white text-lg">About Event</h3>
-                <p className="text-white/80 text-sm leading-relaxed">
-                  Confused ki har jagah bas AI-AI kyun ho raha hai? No cap, AI is everywhere, but hum ise boring nahi banayenge!
-                </p>
-                <p className="text-white/80 text-sm leading-relaxed">
-                  Join E-CELL KCCEMSR for a session that's actually fun. Relatable tech banter, zero boring lectures, and pure vibes.
-                </p>
-                <div className="space-y-2 text-sm text-white/80 font-medium">
-                  <div className="flex gap-2">
-                    <span>•</span>
-                    <span>Date: Dec 26</span>
-                  </div>
-                  <div className="flex gap-2">
-                    <span>•</span>
-                    <span>Location: KCCEMSR, Thane</span>
-                  </div>
-                  <div className="flex gap-2">
-                    <span>•</span>
-                    <span>Vibe: Interactive, fun, and maybe some surprises!</span>
-                  </div>
-                </div>
-                <p className="text-white/70 text-xs mt-4">
-                  Chahe tum tech-pro ho ya bilkul clueless, bas aa jao. Don't miss the FOMO, it's going to be a total W!
-                </p>
-              </div>
-
-              {/* Edit Toggle */}
-              <button
-                onClick={() => setIsEditing(!isEditing)}
-                className="btn-neo bg-primary text-black font-bold py-3 gap-2 w-full"
-              >
-                {isEditing ? (
-                  <>
-                    <Save className="w-4 h-4" /> Save Changes
-                  </>
-                ) : (
-                  <>
-                    <Edit2 className="w-4 h-4" /> Edit Event Details
-                  </>
-                )}
-              </button>
-            </div>
+            )}
           </div>
         </div>
       </div>

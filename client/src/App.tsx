@@ -13,11 +13,13 @@ import TemplatePreview from "@/pages/template-preview";
 import Dashboard from "@/pages/dashboard";
 import EventManage from "@/pages/event-manage";
 import EventSettings from "@/pages/event-settings";
+import Login from "@/pages/login";
 
 function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
+      <Route path="/login" component={Login} />
       <Route path="/editor" component={Editor} />
       <Route path="/templates" component={Templates} />
       <Route path="/template-preview" component={TemplatePreview} />
