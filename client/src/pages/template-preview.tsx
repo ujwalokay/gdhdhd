@@ -3,16 +3,23 @@ import Navbar from "@/components/layout/Navbar";
 import { ArrowRight, Star, Music, Users, Heart, Zap, BookOpen, ChevronDown, MapPin, Clock, DollarSign, Share2, Calendar } from "lucide-react";
 import { useState } from "react";
 import grainTexture from "@assets/generated_images/abstract_holographic_grain_texture.png";
-import heroImage from "@assets/generated_images/3d_neo-brutalist_glossy_star_shape.png";
+import techConfImg from "@assets/generated_images/indian_tech_conference_networking_event.png";
+import hackathonImg from "@assets/generated_images/indian_startup_hackathon_event.png";
+import musicFestImg from "@assets/generated_images/indian_music_festival_concert.png";
 
 const templateConfigs: Record<string, any> = {
   "event-registration": {
-    title: "End of Year Bash 2025",
-    subtitle: "Join us for an unforgettable night of music, vibes, and code.",
-    bgGradient: "from-secondary via-pink-400 to-accent",
+    title: "Sab AI Kyun Le Rahe Hai!?",
+    subtitle: "Join E-CELL KCCEMSR for a session that's actually fun. Relatable tech banter, zero boring lectures, and pure vibes.",
+    bgGradient: "from-purple-600 via-pink-500 to-orange-400",
     headerBg: "from-black to-gray-900",
+    image: techConfImg,
     headerGradientText: true,
     icon: Music,
+    location: "K.C. College of Engineering & Management Studies, Thane, Maharashtra",
+    date: "Friday 26 December, 2025",
+    time: "1:30 PM - 3:30 PM",
+    price: "Free",
     fields: [
       { label: "Full Name", type: "text", placeholder: "Jane Doe" },
       { label: "Email Address", type: "email", placeholder: "jane@example.com" },
@@ -21,12 +28,17 @@ const templateConfigs: Record<string, any> = {
     ]
   },
   "quiz": {
-    title: "JavaScript Mastery Quiz",
-    subtitle: "Test your JavaScript knowledge and see how you rank.",
-    bgGradient: "from-blue-400 via-blue-300 to-cyan-300",
-    headerBg: "from-blue-600 to-blue-800",
+    title: "Web Dev Mastery Challenge",
+    subtitle: "Test your web development skills with our interactive quiz. See how you rank among developers in India.",
+    bgGradient: "from-blue-500 via-cyan-400 to-teal-400",
+    headerBg: "from-blue-700 to-blue-900",
+    image: hackathonImg,
     headerGradientText: false,
     icon: BookOpen,
+    location: "Online - Anywhere in India",
+    date: "December 27, 2025",
+    time: "6:00 PM - 7:30 PM",
+    price: "₹199",
     fields: [
       { label: "Name", type: "text", placeholder: "Your name" },
       { label: "What does 'const' mean?", type: "choice", options: ["Constant", "Constructor", "Container"] },
@@ -34,12 +46,17 @@ const templateConfigs: Record<string, any> = {
     ]
   },
   "feedback": {
-    title: "Your Feedback Matters",
-    subtitle: "Help us improve by sharing your thoughts about today's event.",
-    bgGradient: "from-red-300 via-pink-300 to-purple-300",
-    headerBg: "from-red-500 to-pink-600",
+    title: "Event Feedback Survey",
+    subtitle: "Help us improve by sharing your thoughts about the event. Your feedback shapes our future events!",
+    bgGradient: "from-rose-400 via-pink-300 to-purple-300",
+    headerBg: "from-rose-600 to-pink-700",
+    image: musicFestImg,
     headerGradientText: false,
     icon: Heart,
+    location: "All Event Venues",
+    date: "December 28, 2025",
+    time: "Anytime",
+    price: "Free",
     fields: [
       { label: "Your Name", type: "text", placeholder: "Optional" },
       { label: "Email", type: "email", placeholder: "your@email.com" },
@@ -48,12 +65,17 @@ const templateConfigs: Record<string, any> = {
     ]
   },
   "waitlist": {
-    title: "Join Our Waitlist",
-    subtitle: "Be the first to know when we launch. No spam, just updates.",
-    bgGradient: "from-yellow-300 via-orange-300 to-red-300",
-    headerBg: "from-yellow-500 to-orange-600",
+    title: "Early Access Waitlist",
+    subtitle: "Be the first to know when we launch something special. No spam, just updates about our best events.",
+    bgGradient: "from-yellow-400 via-orange-300 to-red-300",
+    headerBg: "from-yellow-600 to-orange-700",
+    image: techConfImg,
     headerGradientText: false,
     icon: Zap,
+    location: "India",
+    date: "Coming Soon",
+    time: "Launching Q1 2026",
+    price: "Free",
     fields: [
       { label: "Email Address", type: "email", placeholder: "you@example.com" },
       { label: "Your Website / Portfolio", type: "text", placeholder: "https://yoursite.com" },
@@ -61,12 +83,17 @@ const templateConfigs: Record<string, any> = {
     ]
   },
   "rsvp": {
-    title: "RSVP to Our Party",
-    subtitle: "Let us know if you're coming to the coolest event this season.",
-    bgGradient: "from-pink-300 via-purple-300 to-indigo-300",
-    headerBg: "from-pink-500 to-purple-600",
+    title: "New Year Bash 2026",
+    subtitle: "Let us know if you're coming to the coolest New Year event in Mumbai. No cap, it's going to be W!",
+    bgGradient: "from-pink-400 via-purple-300 to-indigo-400",
+    headerBg: "from-pink-600 to-purple-700",
+    image: musicFestImg,
     headerGradientText: false,
     icon: Users,
+    location: "Taj Lands End, Mumbai",
+    date: "December 31, 2025",
+    time: "9:00 PM - 5:00 AM",
+    price: "₹5,000 - ₹10,000",
     fields: [
       { label: "Your Name", type: "text", placeholder: "Full name" },
       { label: "Are You Coming?", type: "choice", options: ["Yes, I'm In! 🎉", "Maybe 🤔", "Can't Make It 😢"] },
@@ -75,12 +102,17 @@ const templateConfigs: Record<string, any> = {
     ]
   },
   "merch-order": {
-    title: "Get Our Merch",
-    subtitle: "Order exclusive limited-edition merchandise.",
-    bgGradient: "from-purple-400 via-pink-400 to-red-400",
-    headerBg: "from-purple-600 to-pink-700",
+    title: "Official Merch Store",
+    subtitle: "Get exclusive limited-edition merchandise from your favorite Indian tech community.",
+    bgGradient: "from-purple-500 via-pink-400 to-red-400",
+    headerBg: "from-purple-700 to-pink-800",
+    image: hackathonImg,
     headerGradientText: false,
     icon: Star,
+    location: "Ships to All India",
+    date: "Year Round",
+    time: "Order Anytime",
+    price: "₹299 - ₹1,999",
     fields: [
       { label: "Your Name", type: "text", placeholder: "Full name" },
       { label: "Email", type: "email", placeholder: "your@email.com" },
@@ -100,17 +132,17 @@ export default function TemplatePreview() {
   const Icon = config.icon;
 
   const eventSchedule = [
-    { time: "6:00 PM", title: "Doors Open", description: "Welcome drinks & appetizers" },
-    { time: "7:00 PM", title: "Opening Remarks", description: "Host introduction" },
-    { time: "8:00 PM", title: "Live Performance", description: "Special musical guest" },
-    { time: "9:30 PM", title: "Networking", description: "Mingle and connect" },
+    { time: "1:30 PM", title: "Registration Opens", description: "Welcome & check-in" },
+    { time: "2:00 PM", title: "Opening Talk", description: "Why AI isn't boring anymore" },
+    { time: "2:45 PM", title: "Interactive Session", description: "Q&A with tech experts" },
+    { time: "3:30 PM", title: "Networking", description: "Connect with fellow tech enthusiasts" },
   ];
 
   const galleryImages = [
-    "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=400&h=300&fit=crop",
-    "https://images.unsplash.com/photo-1501281668479-f6270e1e2353?w=400&h=300&fit=crop",
-    "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=400&h=300&fit=crop",
-    "https://images.unsplash.com/photo-1516627145497-ae6968895b2f?w=400&h=300&fit=crop",
+    techConfImg,
+    hackathonImg,
+    musicFestImg,
+    techConfImg,
   ];
 
   if (!config) return <div>Template not found</div>;
@@ -121,14 +153,19 @@ export default function TemplatePreview() {
 
       {/* Hero Section */}
       <div className={`relative bg-gradient-to-r ${config.bgGradient} min-h-96 flex items-center justify-center overflow-hidden border-b-4 border-black`}>
-        <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ backgroundImage: `url(${grainTexture})`, backgroundSize: 'cover' }}></div>
-        <div className="absolute inset-0 bg-black/20"></div>
+        <div className="absolute inset-0 opacity-10 pointer-events-none" style={{ backgroundImage: `url(${grainTexture})`, backgroundSize: 'cover' }}></div>
+        <img src={config.image} alt="Event background" className="absolute inset-0 w-full h-full object-cover opacity-20" />
+        <div className="absolute inset-0 bg-black/40"></div>
         <div className="relative z-10 text-center text-white px-4">
-          <img src={heroImage} alt="Event" className="w-32 h-32 mx-auto mb-6 drop-shadow-2xl" />
-          <h1 className="text-5xl md:text-6xl font-display font-black uppercase mb-4">
+          <div className="mb-6 inline-block">
+            <div className="w-24 h-24 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center border-2 border-white/60">
+              <Icon className="w-12 h-12 text-white" />
+            </div>
+          </div>
+          <h1 className="text-5xl md:text-6xl font-display font-black uppercase mb-4 leading-tight">
             {config.title}
           </h1>
-          <p className="text-xl md:text-2xl font-medium mb-8">{config.subtitle}</p>
+          <p className="text-lg md:text-xl font-medium mb-8 max-w-2xl mx-auto">{config.subtitle}</p>
           <button className="btn-neo bg-white text-black font-bold text-lg px-8 py-3 inline-flex items-center gap-2">
             <Share2 className="w-5 h-5" /> Share Event
           </button>
@@ -144,9 +181,9 @@ export default function TemplatePreview() {
                 <Calendar className="w-6 h-6" />
               </div>
               <div>
-                <h3 className="font-bold uppercase text-sm tracking-wider text-gray-500 mb-1">Date</h3>
-                <p className="text-2xl font-display font-black">Dec 31, 2025</p>
-                <p className="text-gray-600 font-medium">8:00 PM - 12:00 AM</p>
+                <h3 className="font-bold uppercase text-sm tracking-wider text-gray-500 mb-1">Date & Time</h3>
+                <p className="text-lg font-display font-black">{config.date}</p>
+                <p className="text-gray-600 font-medium">{config.time}</p>
               </div>
             </div>
             
@@ -156,8 +193,7 @@ export default function TemplatePreview() {
               </div>
               <div>
                 <h3 className="font-bold uppercase text-sm tracking-wider text-gray-500 mb-1">Location</h3>
-                <p className="text-2xl font-display font-black">Golden Hall</p>
-                <p className="text-gray-600 font-medium">123 Event Street, NYC</p>
+                <p className="text-lg font-display font-black line-clamp-2">{config.location}</p>
               </div>
             </div>
 
@@ -167,8 +203,7 @@ export default function TemplatePreview() {
               </div>
               <div>
                 <h3 className="font-bold uppercase text-sm tracking-wider text-gray-500 mb-1">Price</h3>
-                <p className="text-2xl font-display font-black">$25 - $75</p>
-                <p className="text-gray-600 font-medium">General to VIP</p>
+                <p className="text-lg font-display font-black">{config.price}</p>
               </div>
             </div>
           </div>
@@ -338,7 +373,7 @@ export default function TemplatePreview() {
             <div>
               <h3 className="font-display font-black text-xl uppercase mb-4">About</h3>
               <p className="text-gray-300 font-medium leading-relaxed">
-                Join us for an unforgettable experience. Limited spots available—secure yours today!
+                {config.subtitle}
               </p>
             </div>
             <div>
@@ -351,16 +386,16 @@ export default function TemplatePreview() {
               </ul>
             </div>
             <div>
-              <h3 className="font-display font-black text-xl uppercase mb-4">Contact</h3>
+              <h3 className="font-display font-black text-xl uppercase mb-4">Details</h3>
               <ul className="space-y-2 text-gray-300 font-medium">
-                <li>📧 hello@event.com</li>
-                <li>📞 +1 (555) 123-4567</li>
-                <li>📍 123 Event St, NYC</li>
+                <li>📅 {config.date}</li>
+                <li>📍 {config.location.split(',')[0]}</li>
+                <li>💰 {config.price}</li>
               </ul>
             </div>
           </div>
           <div className="border-t border-gray-700 pt-8 flex flex-col md:flex-row items-center justify-between">
-            <p className="text-gray-400 font-medium text-sm">© 2025 Event Organizers. All rights reserved.</p>
+            <p className="text-gray-400 font-medium text-sm">© 2025 VibeForm Events. All rights reserved.</p>
             <div className="flex gap-4 mt-4 md:mt-0">
               <a href="#" className="text-gray-300 hover:text-primary transition-colors">Twitter</a>
               <a href="#" className="text-gray-300 hover:text-primary transition-colors">Instagram</a>

@@ -2,54 +2,63 @@ import Navbar from "@/components/layout/Navbar";
 import { Link } from "wouter";
 import { Sparkles, Music, Heart, BookOpen, Zap, Users, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
+import techConfImg from "@assets/generated_images/indian_tech_conference_networking_event.png";
+import hackathonImg from "@assets/generated_images/indian_startup_hackathon_event.png";
+import musicFestImg from "@assets/generated_images/indian_music_festival_concert.png";
 
 const templates = [
   {
     id: "event-registration",
     name: "Event Registration",
-    description: "Perfect for conferences, parties, and gatherings.",
+    description: "Perfect for tech conferences, parties, and gatherings across India.",
     icon: Music,
     color: "from-primary to-accent",
+    image: techConfImg,
     fields: ["Full Name", "Email", "Ticket Type", "Dietary Restrictions"]
   },
   {
     id: "quiz",
     name: "Knowledge Quiz",
-    description: "Interactive quiz with scoring and instant feedback.",
+    description: "Interactive quiz with scoring and instant feedback for students.",
     icon: BookOpen,
     color: "from-secondary to-primary",
+    image: hackathonImg,
     fields: ["Question 1", "Question 2", "Question 3", "Results"]
   },
   {
     id: "feedback",
     name: "Feedback Form",
-    description: "Collect feedback from your customers or attendees.",
+    description: "Collect feedback from your customers, attendees, or event participants.",
     icon: Heart,
     color: "from-accent to-secondary",
+    image: musicFestImg,
     fields: ["Name", "Email", "Rating", "Comments"]
   },
   {
     id: "waitlist",
     name: "Waitlist Signup",
-    description: "Build hype and collect early interest.",
+    description: "Build hype and collect early interest for your upcoming event.",
     icon: Zap,
     color: "from-yellow-400 to-primary",
+    image: techConfImg,
     fields: ["Email", "Website URL", "Interest Level"]
   },
   {
     id: "rsvp",
     name: "RSVP Form",
-    description: "Manage party RSVPs with style.",
+    description: "Manage party RSVPs and event attendance with style.",
     icon: Users,
     color: "from-pink-400 to-secondary",
+    image: musicFestImg,
     fields: ["Name", "Guest Count", "Dietary Notes", "Plus One"]
   },
   {
     id: "merch-order",
     name: "Merch Order",
-    description: "Sell and track merchandise orders.",
+    description: "Sell and track merchandise orders from your community.",
     icon: Sparkles,
     color: "from-purple-400 to-accent",
+    image: hackathonImg,
     fields: ["Size", "Color", "Quantity", "Shipping Address"]
   },
 ];
@@ -86,36 +95,49 @@ export default function Templates() {
               >
                 <Link href={`/template-preview?template=${template.id}`}>
                   <div className="group block cursor-pointer">
-                    <div className="card-neo p-8 h-full hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all duration-200 cursor-pointer relative overflow-hidden">
-                      {/* Background gradient accent */}
-                      <div className={`absolute inset-0 opacity-0 group-hover:opacity-5 bg-gradient-to-br ${template.color} transition-opacity pointer-events-none`}></div>
-                      
-                      <div className={`inline-flex w-12 h-12 rounded-lg border-2 border-black bg-gradient-to-br ${template.color} items-center justify-center mb-6 shadow-hard-sm group-hover:shadow-none group-hover:translate-x-0.5 group-hover:translate-y-0.5 transition-all`}>
-                        <Icon className="w-6 h-6 text-white drop-shadow-lg" />
+                    <div className="card-neo p-0 h-full hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all duration-200 cursor-pointer relative overflow-hidden flex flex-col">
+                      {/* Image Preview */}
+                      <div className="relative h-40 overflow-hidden bg-gray-100">
+                        <img 
+                          src={template.image}
+                          alt={template.name}
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                        />
+                        <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors"></div>
                       </div>
 
-                      <h3 className="text-2xl font-display font-bold mb-2 group-hover:text-primary transition-colors">
-                        {template.name}
-                      </h3>
-                      
-                      <p className="text-muted-foreground font-medium mb-6">
-                        {template.description}
-                      </p>
-
-                      <div className="space-y-2 mb-6">
-                        <div className="text-xs font-bold uppercase text-gray-400 tracking-wider">Includes:</div>
-                        <div className="flex flex-wrap gap-2">
-                          {template.fields.map((field) => (
-                            <span key={field} className="text-xs bg-gray-100 border border-gray-300 rounded-full px-2.5 py-1 font-medium">
-                              {field}
-                            </span>
-                          ))}
+                      {/* Content */}
+                      <div className="p-6 flex-1 flex flex-col">
+                        {/* Background gradient accent */}
+                        <div className={`absolute inset-0 opacity-0 group-hover:opacity-5 bg-gradient-to-br ${template.color} transition-opacity pointer-events-none`}></div>
+                        
+                        <div className={`inline-flex w-12 h-12 rounded-lg border-2 border-black bg-gradient-to-br ${template.color} items-center justify-center mb-4 shadow-hard-sm group-hover:shadow-none group-hover:translate-x-0.5 group-hover:translate-y-0.5 transition-all`}>
+                          <Icon className="w-6 h-6 text-white drop-shadow-lg" />
                         </div>
-                      </div>
 
-                      <div className="flex items-center text-sm font-bold text-primary gap-2 group-hover:gap-4 transition-all">
-                        Use Template
-                        <ArrowRight className="w-4 h-4" />
+                        <h3 className="text-2xl font-display font-bold mb-2 group-hover:text-primary transition-colors">
+                          {template.name}
+                        </h3>
+                        
+                        <p className="text-muted-foreground font-medium mb-4 flex-1">
+                          {template.description}
+                        </p>
+
+                        <div className="space-y-3">
+                          <div className="text-xs font-bold uppercase text-gray-400 tracking-wider">Includes:</div>
+                          <div className="flex flex-wrap gap-2">
+                            {template.fields.map((field) => (
+                              <span key={field} className="text-xs bg-gray-100 border border-gray-300 rounded-full px-2.5 py-1 font-medium">
+                                {field}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+
+                        <div className="flex items-center text-sm font-bold text-primary gap-2 group-hover:gap-4 transition-all mt-4">
+                          Use Template
+                          <ArrowRight className="w-4 h-4" />
+                        </div>
                       </div>
                     </div>
                   </div>
