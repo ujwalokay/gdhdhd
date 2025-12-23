@@ -10,6 +10,9 @@ import ViewForm from "@/pages/view-form";
 import Results from "@/pages/results";
 import Templates from "@/pages/templates";
 import TemplatePreview from "@/pages/template-preview";
+import Dashboard from "@/pages/dashboard";
+import EventManage from "@/pages/event-manage";
+import EventSettings from "@/pages/event-settings";
 
 function Router() {
   return (
@@ -20,6 +23,9 @@ function Router() {
       <Route path="/template-preview" component={TemplatePreview} />
       <Route path="/view/:id" component={ViewForm} />
       <Route path="/results" component={Results} />
+      <Route path="/dashboard" component={Dashboard} />
+      <Route path="/event/:id" component={EventManage} />
+      <Route path="/event/:id/settings" component={EventSettings} />
       <Route component={NotFound} />
     </Switch>
   );
