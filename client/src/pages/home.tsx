@@ -26,15 +26,11 @@ export default function Home() {
               Build stunning event pages, quizzes, and surveys that Gen Z actually wants to fill out. No code required.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
-              <Link href="/editor">
-                <a className="btn-neo text-lg py-6 px-8 bg-primary">
-                  Start Building Free <ArrowRight className="ml-2 w-5 h-5" />
-                </a>
+              <Link href="/editor" className="btn-neo text-lg py-6 px-8 bg-primary">
+                Start Building Free <ArrowRight className="ml-2 w-5 h-5" />
               </Link>
-              <Link href="/templates">
-                <a className="btn-neo text-lg py-6 px-8 bg-white hover:bg-muted">
-                  View Templates
-                </a>
+              <Link href="/templates" className="btn-neo text-lg py-6 px-8 bg-white hover:bg-muted">
+                View Templates
               </Link>
             </div>
           </div>
